@@ -441,3 +441,27 @@ for regressor=2:size(betas,2)
     fprintf('- all nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
     
 end
+
+
+
+%bar chart
+% GLM1 on non-tms trials
+%get errors:
+for r=1:length(Regs)+1
+    x=(betas(~isnan(betas(:,r ,c)),r ,c));
+    SEM = std(x)/sqrt(length(x));               % Standard Error
+    ts = tinv([0.025  0.975],length(x)-1);      % T-Score
+    CI = mean(x) + ts*SEM;                      % Confidence Intervals
+    errors(r)=[CI(2)-mean(x)];
+    errors(r)=[SEM];
+end
+%plot
+clf
+a=bar(mean(betas(:,2:end)));
+hold on
+err=errorbar(1:4,mean(betas(:,2:end)),mean(betas(:,2:end))-errors(2:end),mean(betas(:,2:end))+errors(2:end));
+err.Color = [0 0 0];                            
+err.LineStyle = 'none';  
+set(gca,'xticklabel',Regs)
+
+print -depsc GLM1bar

@@ -491,7 +491,7 @@ for rfig=2: length(Regs)+1 %one figure per regressor (except intercept)
         else
             these_x=[3 4];
             if lines==3 %MIp0ipsi MIP0con
-                these_conds=[1 5]
+                these_conds=[1 5];
                 col=[ 1 .75 .5]; 
                 linetype='--';
             else
@@ -505,7 +505,7 @@ for rfig=2: length(Regs)+1 %one figure per regressor (except intercept)
         
         plot([0:5], zeros(1,6),':', 'Color','k');%[.7 .7 .7])
     
-        leg(lines)=plot(these_x,[to_plot],linetype, 'Color', col, 'Linewidth',2)
+        leg(lines)=plot(these_x,[to_plot],linetype, 'Color', col, 'Linewidth',2);
         errorbar(these_x(1), to_plot(1), error_to_plot(1), 'Color', col, 'Linewidth',2);
         errorbar(these_x(2), to_plot(2), error_to_plot(2), 'Color', col, 'Linewidth',2);
 
@@ -569,7 +569,7 @@ end
         end
         allvars=strcat(titles{1},'-',titles{end},' ~1');
         rm = fitrm(tab,allvars,'WithinDesign',within);
-        ranovatbl = ranova(rm,'withinmodel',factors);
+        ranovatbl = ranova(rm,'withinmodel',factors)
         if ANOVA==2
             p_spots=[3 5 7 9 11 13 15];
             p_spot_names={'Session' 'Stim' 'DLoc' 'Session*Stim' 'Session*DLoc*' 'Stim*DLoc' 'Session*Stim*DLoc'};
@@ -599,6 +599,7 @@ mean_betas=squeeze(mean(betas,3));
 p=[];
 t=[];
 D=[];
+fprintf('Ttest of mean betas against 0:\n')
 for i=2:size(mean_betas,2)
     [h p(i) ci stats]=ttest(mean_betas(:,i));
     t(i)=stats.tstat;
@@ -608,7 +609,9 @@ for i=2:size(mean_betas,2)
     SD1 = std(mean_betas(:,i));
     SD2 = 0;
 %     D(i)= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2))
-    D(i)= (Mean2-Mean1)/(SD1)';
+    D(i)= (Mean2-Mean1)/(SD1)';   
+    fprintf(Regs{i-1})
+    fprintf('\nt(%i) = %2.3f, p = %2.3f, d = %2.3f\n',stats.df, t(i), p(i), D(i))
 end
                        
                         
