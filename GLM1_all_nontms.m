@@ -426,15 +426,6 @@ end
 %% test each regressor against 0
 %only non-tms
 for regressor=2:size(betas,2)
-
-    [h p ci stats]=ttest(betas(:,regressor));
-    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all nontms: t(%d) = %2.2f, p = %2.3f\n',stats.df,stats.tstat, p)
-    
-end
-
-%% same but with effect size
-for regressor=2:size(betas,2)
     [h p ci stats]=ttest(betas(:,regressor));
     D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
     fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
@@ -444,7 +435,7 @@ end
 
 
 
-%bar chart
+%% Figure 2 c
 % GLM1 on non-tms trials
 %get errors:
 for r=1:length(Regs)+1
@@ -452,14 +443,14 @@ for r=1:length(Regs)+1
     SEM = std(x)/sqrt(length(x));               % Standard Error
     ts = tinv([0.025  0.975],length(x)-1);      % T-Score
     CI = mean(x) + ts*SEM;                      % Confidence Intervals
-    errors(r)=[CI(2)-mean(x)];
-    errors(r)=[SEM];
+    errors2(r)=[CI(2)-mean(x)];
+    errors2(r)=[SEM];
 end
 %plot
 clf
 a=bar(mean(betas(:,2:end)));
 hold on
-err=errorbar(1:4,mean(betas(:,2:end)),mean(betas(:,2:end))-errors(2:end),mean(betas(:,2:end))+errors(2:end));
+err=errorbar(1:4,mean(betas(:,2:end)),mean(betas(:,2:end))-errors2(2:end),mean(betas(:,2:end))+errors2(2:end));
 err.Color = [0 0 0];                            
 err.LineStyle = 'none';  
 set(gca,'xticklabel',Regs)

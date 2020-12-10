@@ -368,27 +368,7 @@ end
 
 % we only reallym care aout D-HV
 %% NEW T TESTS
-betas=betas_high(:,:);
-for regressor=4:size(betas,2)
-    %% easy
-    fprintf('EASY')
-    betas=betas_high(:,:);
-    %MIP
-    [h p ci stats]=ttest(betas(:,regressor));
-    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all_nontms: t(%d) = %2.2f, p = %2.3f\n',stats.df,stats.tstat, p)
-   
-    
-    %% easy
-    fprintf('HARD')
-    betas=betas_low(:,:);
-    [h p ci stats]=ttest(betas(:,regressor));
-    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f\n',stats.df,stats.tstat, p)
-   
-end
 
-%% same but wiht effect size
 betas=betas_high(:,:);
 for regressor=4:size(betas,2)
     %% easy
@@ -409,5 +389,40 @@ for regressor=4:size(betas,2)
     fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
    
 end
+
+
+%% Figure 2 d
+
+%get errors:
+regressor=4;
+x=betas_high(:,regressor);
+SEM = std(x)/sqrt(length(x));               % Standard Error
+ts = tinv([0.025  0.975],length(x)-1);      % T-Score
+CI = mean(x) + ts*SEM;                      % Confidence Intervals
+errors_high=[CI(2)-mean(x)];
+errors_high=[SEM];
+
+x=betas_low(:,regressor);
+SEM = std(x)/sqrt(length(x));               % Standard Error
+ts = tinv([0.025  0.975],length(x)-1);      % T-Score
+CI = mean(x) + ts*SEM;                      % Confidence Intervals
+errors_low=[CI(2)-mean(x)];
+errors_low=[SEM];
+
+%plot
+clf
+a=bar([mean(betas_low(:,regressor));mean(betas_high(:,regressor))]);
+hold on
+err=errorbar(1:2,[mean(betas_low(:,regressor)),mean(betas_high(:,regressor))], [mean(betas_low(:,regressor)),mean(betas_high(:,regressor))]-[errors_low,errors_high],[mean(betas_low(:,regressor)),mean(betas_high(:,regressor))]+[errors_low,errors_high])
+err.Color = [0 0 0];                            
+err.LineStyle = 'none';  
+set(gca,'xticklabel',{'hard','easy'})
+
+print -depsc GLM2bar
+
+
+
+
+
 
 
