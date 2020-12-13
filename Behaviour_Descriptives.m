@@ -40,32 +40,23 @@ for partic=1:length(Partic)
     %     rt              RT in ms
     %     tms             0=no 1=stim
     %     tms_cond        0=no 1=MIP 2=V5
-    %     accuracy_bolton 1=corr 0=err nan=empty/distractor
-    %     accuracy_abs    1=corr 0=error (including emppty/distractor)
-    %     accuracy_def    1=corr 0=err 2=distractor 3=empty
-    %     d_v             distractor value(prob*rew)
-    %     lv_v            low value option value(prob*rew)
-    %     hv_v            high value option value(prob*rew)
-    %     all_v           value(prob*rew)of each option - 1st column: HV, 2nd column: LV, 3rd column: D
-    %     all_prob        probability of each option - 1st column: HV, 2nd column: LV, 3rd column: D
-    %     all_mag         magnitude of each option - 1st column: HV, 2nd column: LV, 3rd column: D
-    %     position        positions of stims on screen - 1st column: HV, 2nd column: LV, 3rd column: D - 1=top left, 2=top right, 3=bottom left, 4=bottom right
-    
+    %     accuracy        1=corr 0=err nan=empty/distractor
+
     % variables of interest
     session=[ones(length(MIP.trial{:}),1); zeros(length(V5.trial{:}),1)];%1=MIP, 0=V5;
     tms=[MIP.tms{:};V5.tms{:}];  
     rt=[MIP.RT{:};V5.RT{:}];
-    accuracy_bolton=[MIP.accuracy{:};V5.accuracy{:}]; 
+    accuracy=[MIP.accuracy{:};V5.accuracy{:}]; 
    
     % collect per partic
-    ACCURACY(:,partic)=(accuracy_bolton);
+    ACCURACY(:,partic)=(accuracy);
     SESSION(:,partic)=session;
     TMS(:,partic)=tms;
     RT(:,partic)=rt;
 
     % exclude trials
     rt_keep=rt;
-    accuracy_deletion=(isnan(accuracy_bolton));%delete all trials where distractor or empty was chosen
+    accuracy_deletion=(isnan(accuracy));%delete all trials where distractor or empty was chosen
     DELETE(:,partic)=(accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max);
     
     ACC_MT(partic)=mean(ACCURACY(SESSION(:,partic)==0 & DELETE(:,partic)==0 & TMS(:,partic)==0,partic));
