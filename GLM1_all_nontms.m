@@ -1,8 +1,9 @@
 %% Basic Behavioural Analysis
 % Runs GLM1 on non-tms data (across conditions) to get base behaviour
 %       GLM1:	β0 + β1 z(HV-LV) + β2 z(HV+LV) + β3 z(D-HV) + β4 z(HV-LV) z(D-HV) + ε
-% Reports ttests of each predictor's beta weights against zero
 
+% Reports ttests of each predictor's beta weights against zero
+% Plots Figure 2d (each beta weight)
 
 
 clearvars 
