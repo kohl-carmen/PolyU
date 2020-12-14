@@ -155,26 +155,23 @@ end
 
 
 %% test beta weights (D-HV) against zero (once for easy/hard)
+regressor=4;
+% easy
+fprintf('\nD-HV: EASY')
 betas=betas_high(:,:);
-for regressor=4:size(betas,2)
-    % easy
-    fprintf('\nD-HV: EASY')
-    betas=betas_high(:,:);
-    [h p ci stats]=ttest(betas(:,regressor));
-    D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
-    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all_nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
-   
-    
-    % easy
-    fprintf('\nD-HV: HARD')
-    betas=betas_low(:,:);
-    [h p ci stats]=ttest(betas(:,regressor));
-    D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
-    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
-   
-end
+[h p ci stats]=ttest(betas(:,regressor));
+D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
+fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
+fprintf('- all_nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
+
+
+% easy
+fprintf('\nD-HV: HARD')
+betas=betas_low(:,:);
+[h p ci stats]=ttest(betas(:,regressor));
+D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
+fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
+fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
 
 
 %% Figure 2 d
