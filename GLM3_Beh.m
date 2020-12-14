@@ -447,27 +447,3 @@ legend(line,Conds)
 % save
 cd(plot_dir)
 print -depsc intplot
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
