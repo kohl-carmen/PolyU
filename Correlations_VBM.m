@@ -18,6 +18,7 @@ corr_or_partialcorr=2;
 
 file_dir = 'D:\PolyU\TMS\Results\VBM\output\';
 plot_dir='D:\PolyU\TMS\Paper\';
+glm2_output_dir ='C:\Users\ckohl\Desktop\Current\Other\Bolton\'; %output_dir in GLM2_all_nontms.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% load
@@ -160,3 +161,28 @@ title(MT_MT)
 % save
 cd(plot_dir)
 print -depsc vbm_scatter
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %% correlate MIP GM and base distractor effect
+% % load GLM2 output (Fig 2 d). D-HV beta weights (non-tms) once for easy
+% % (negative distractor effect) and once for hard (positive distractor
+% % effect) => MIP GM should be correlated with negative distractor effect
+% 
+% %load GLM2 output
+% cd(glm2_output_dir)
+% negD=load('GLM2_output_easy.mat');
+% posD=load('GLM2_output_hard.mat');
+% 
+% negD=negD.D_effect_easy;
+% posD=posD.D_effect_hard;
+% 
+% %corr with MIP GM
+% [r p]=corr(MIP,negD);
+% fprintf('\nr(%i) = %2.2f, p = %2.3f\n',length(MIP)-2,r,p)
+% 
+% figure
+% hold on
+% plot(negD,MIP,'.','Markersize',20,'Color',[223/255 112/255 14/255])
+
+

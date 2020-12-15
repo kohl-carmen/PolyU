@@ -10,7 +10,7 @@ clearvars
 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
 plot_dir = 'J:\PolyU\TMS\Paper';
-
+output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -165,7 +165,7 @@ fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
 fprintf('- all_nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
 
 
-% easy
+% hard
 fprintf('\nD-HV: HARD')
 betas=betas_low(:,:);
 [h p ci stats]=ttest(betas(:,regressor));
@@ -196,8 +196,17 @@ set(gca,'xticklabel',{'hard','easy'})
 
 %% save
 cd(plot_dir)
-rint -depsc GLM2bar
+print -depsc GLM2bar
 
+% %% save GLM output for GM correlation
+% % to test whether base distractor effect correlates with MIP grey matter
+% % volume
+% cd(output_dir)
+% regressor=4;
+% D_effect_easy = betas_high(:,regressor);
+% D_effect_hard = betas_low(:,regressor);
+% save('GLM2_output_easy.mat','D_effect_easy')
+% save('GLM2_output_hard.mat','D_effect_hard')
 
 
 
