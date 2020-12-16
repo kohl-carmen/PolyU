@@ -25,19 +25,31 @@
 %           -  Still reports everything liek above, but we're only
 %              reporting one ANOVA interaction in the manuscript
 %           -  Plots Figure 5 b (note bar order was changed in illustrator)
-
+% 
 %   - Which_GLM = 3 &  Which_criterion =  2
 %           -  Same as above, but now the GLM is predicting gaze shifts
 %              from HV to D (not bidirectional)
 %           -  Still reports everything liek above, but we're only
 %              reporting one ANOVA interaction in the manuscript
 %           -  Plots Figure 5 c (note bar order was changed in illustrator)
-
+% 
 %   - Which_GLM = 4 (Which_criterion doesn't matter)
 %           -  Runs GLM4: {'hv_lv' 'lv_hv' 'lv_dv' 'dv_lv' 'hv_dv' 'dv_hv'}
 %              gaze shifts to predict accuracy across all non-tms trials
 %           -  Runs and reports ttests for each beta against zero
 %           -  Plots Figure 5 d
+% 
+% Two more things this does:
+% 
+%   - Which_GLM = 5 (for each criterion)
+%           -  Runs a GLM: {'HV' 'LV' 'D'} to predict gaze shifts
+%           -  Everything else like above
+%           -  Plots Supplementary Figure 2 (a/b/c  with Which_criterion
+%               = 1/2/3 respectively)
+%
+%   - Manually uncomment lines 115-116 (while Which_GLM=3, Which_criterion=1/2/3)
+%           - Tests that results do not change qualitatively when we
+%             use the original Site x Stim x Session ANOVA
 
 
 clear
@@ -46,11 +58,12 @@ file_dir='D:\PolyU\TMS\Data\Tobii\';
 output_dir='D:\PolyU\TMS\Paper';
 
 
-Which_GLM=3;    
+Which_GLM = 3;    
                 % 3: HV+LV, HV-LV, D-HV  => these values to predict the number of gaze shifts in different conds (TMSxSess)
                 % 4: hv_lv, lv_hv, lv_dv, dv_lv, hv_dv, dv_hv  => these gaze shifts to predict accuracy across all non-tms trials
+                % 5: % 2: HV, LV, D  => these values to predict the number of gaze shifts in different conds (TMSxSess)
 
-Which_criterion =  1 ;
+Which_criterion =  1;
                 % If GLM is 1 or 2 (predicting gaze shifts), which gaze shifts do you wana predict?
                 % 1: bidirectional D to HV and HV to D
                 % 2: D to HV
@@ -68,6 +81,11 @@ elseif Which_GLM==4
     model='[hv_lv(idx),lv_hv(idx),lv_dv(idx), dv_lv(idx), hv_dv(idx), dv_hv(idx)]';
     Testing=1;
     ANOVA=10;
+elseif Which_GLM==5
+    Regs={'HV' 'LV' 'DV'};
+    model='[hv_v(idx), lv_v(idx), d_v(idx)]';
+    Testing=2;
+    ANOVA=1;
 end
 
 
@@ -85,18 +103,17 @@ Sessions={'MT' 'MIP'};
 StimType={'hv_e' 'lv_e' 'd_e'};
 
                         
-                        
-  
-                        
 exclude=[]; 
 
 if ANOVA==1
     Conds={'MIP0' 'MIP1' 'MT0' 'MT1'};
-elseif ANOVA==2 
-    Conds={'MIP0ipsi' 'MIP1ipsi' 'MT0ipsi' 'MT1ipsi' 'MIP0contra' 'MIP1contra' 'MT0contra' 'MT1contra'};
 elseif ANOVA==10
     Conds={'nontms'};
 end
+
+% only for control 
+% ANOVA=2;
+% Conds={'MIP0ipsi' 'MIP1ipsi' 'MT0ipsi' 'MT1ipsi' 'MIP0contra' 'MIP1contra' 'MT0contra' 'MT1contra'};
 
 fprintf('\n ---------------------')
 fprintf('\n ---------------------\n')
@@ -495,20 +512,29 @@ if ANOVA<10
         fig_name=strcat('eye',Regs{rfig-1},'_bar');
         if criterion_name(1)=='b'
                 ylim([-.04 .1])
+                if Which_GLM==5
+                    ylim([-.11 .07])
+                end
                 set(gca,'YTick',[-.1 -.05 0 .05 .1])
         elseif criterion_name(1)=='d'
                 ylim([-.04 .07])
+                if Which_GLM==5
+                    ylim([-.07 .05])
+                end
                 set(gca,'YTick',[-.04 -.02 0 .02 .04 .06])
                 fig_name=strcat(fig_name,'_',criterion_name(1),'_dvhv');
         elseif criterion_name(1)=='h'
                 ylim([-.02 .04])
+                if Which_GLM==5
+                    ylim([-.05 .025])
+                end
                 set(gca,'YTick',[-.02  0 .02 .04])
                 fig_name=strcat(fig_name,'_',criterion_name(1),'_hvdv');
         end
         set(gca,'xticklabel',{'MT' 'MIP'})
         ticks=get(gca,'YTick');
         title(Regs{rfig-1})
-        
+
         %save
         cd(output_dir)
         print(fig_name, '-depsc') 
