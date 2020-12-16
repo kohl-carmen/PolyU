@@ -468,7 +468,7 @@ if ANOVA<10
             ranovatbl=table2array(ranovatbl);
             %report
             for i=1:length(ranovatbl([p_spots],5))
-                fprintf('%s : F(%d,%d) = %4.2f, p = %1.3f, n = %4.3f \n',p_spot_names{i},ranovatbl(1,2),ranovatbl(2,2), ranovatbl ((p_spots(i)),4),ranovatbl((p_spots(i)),5), (ranovatbl((p_spots(i)),1)/(ranovatbl((p_spots(i)),1) + ranovatbl((p_spots(i))+1,1))))
+                fprintf('%s : F(%d,%d) = %4.2f, p = %1.3f, n = %4.2f \n',p_spot_names{i},ranovatbl(1,2),ranovatbl(2,2), ranovatbl ((p_spots(i)),4),ranovatbl((p_spots(i)),5), (ranovatbl((p_spots(i)),1)/(ranovatbl((p_spots(i)),1) + ranovatbl((p_spots(i))+1,1))))
                 result_text=sprintf('%s %s : F(%d,%d) = %4.2f, p = %1.3f \n'  , result_text,p_spot_names{find(p_spots(i))},  ranovatbl(1,2),ranovatbl(2,2), ranovatbl ((p_spots(i)),4),ranovatbl((p_spots(i)),5));
             end   
         end
