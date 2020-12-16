@@ -1,0 +1,30 @@
+Behaviour_Descriptives.m
+	- reports descriptives (mean/sd rt/acc) for non-tms behavioural data
+	- reports ttest betweeen MIP and MT non-tms
+	- plots Figure 2 a,b
+
+GLM1_all_nontms.m
+	- applies GLM1 ({'HV+LV' 'HV-LV' 'D-HV' '(HV-LV)*(D-HV)'}) to non-tms behavioural data
+	- tests each beta weight against zero and reports outcomes
+	- plots Figure 2 c
+
+GLM2_all_nontms.m
+	- applies GLM2 ({'HV+LV' 'HV-LV' } step {'D-HV'}) to non-tms behavioural data (median split into easy and hard)
+	- tests D-HV beta weight against zero and reports outcomes (once for easy/hard)
+	- plots Figure 2 d
+
+GLM3_Beh.m
+	- applies GLM3 ({'HV+LV' 'HV-LV' 'D-HV' }) to behavioural data (tms x session x side)
+	- reports GLM effects as well as ttests of beta weight against zero
+	- plots Figure 3 a-d
+
+Correlations_VBM.m
+	- runs all correlations for voxel-based morphometry ouputs
+	- reports correlation outputs in figure titles (outlier stats in cmd window)
+	- plots Figure 4 b,c
+
+Eyetracking_GLM.m
+	- applies GLM (depending on 'Which_GLM' vaiable)
+	- reports GLM outputs as well as ttests of beta weights against zero
+	- plots Figure 5 a-d (depending on 'Which_criterion' variable) (for Figure 5 d, set 'Which_GLM' to 3)
+	- plot Supplementary Figure 2 a-c (depending on 'Which_criterion' variable)
