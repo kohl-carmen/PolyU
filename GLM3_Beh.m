@@ -14,7 +14,7 @@
 clearvars 
 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
-plot_dir = 'J:\PolyU\TMS\Paper';
+plot_dir = 'C:\Users\ckohl\Desktop';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -336,13 +336,13 @@ end
 figure
 
 Comparison={'D_V-HV_V'};  
-avg_window=0.3;
-bin_x=[0:0.3:1-avg_window];
+avg_window=0.25;
+bin_x=[0:0.25:1-avg_window];
 bin_x=[bin_x;bin_x+avg_window];
+%conds to compare to
+Conds={'MIP1contra' 'MIP1ipsi' 'MT1contra' 'MT1ipsi'};
 position_oi=3; %ipsi/contra loc refers to distractor
 
-Conds={'MIP1contra' 'MIP1ipsi' 'MT1contra' 'MT1ipsi'};
-% Conds={'MIP1contra' 'MIP1ipsi' 'MIP0contra' 'MIP0ipsi'};
 Runs=length(Conds);
 ACC_PER=[];
 ERR_PER=[];
@@ -447,3 +447,16 @@ legend(line,Conds)
 % save
 cd(plot_dir)
 print -depsc intplot
+
+
+
+
+% %% save GLM output for GM correlation
+% % to test whether base distractor effect correlates with MIP grey matter
+% % volume
+%% 
+% output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
+% cd(output_dir)
+% save('GLM3_output_betas.mat','betas')
+% save('GLM3_output_regs.mat','Regs')
+% save('GLM3_output_conds.mat','Conds')
