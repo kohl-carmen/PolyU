@@ -244,6 +244,38 @@ for i=2:size(mean_betas,2)
     fprintf('\nt(%i) = %2.3f, p = %2.3f, d = %2.3f\n',stats.df, t(i), p(i), D(i))
 end
                 
+% test D-HV regressor against 0 - once for MIP1contra one for MIP0contra
+for cond=1:length(Conds)
+    if Conds{cond}(2)=='I' & Conds{cond}(end)=='a'
+        if Conds{cond}(4)=='1'
+            cond_oi1=cond;
+        else
+            cond_oi2=cond;
+        end
+    end
+end
+
+p=[];
+t=[];
+D=[];
+fprintf('Ttest of D-HV against 0 (MIP1contra vs MIP0contra):\n')
+for conds = 1:2
+    if conds==1
+        cond=cond_oi1;
+    else
+        cond=cond_oi2;
+    end
+    [h p(i) ci stats]=ttest(betas(:,end,cond));
+    t(i)=stats.tstat;
+    p(i);
+    Mean1= mean(betas(:,end,cond));
+    Mean2= 0;
+    SD1 = std(betas(:,end,cond));
+    SD2 = 0;
+    D(i)= (Mean2-Mean1)/(SD1)'; 
+    fprintf('%s %s',Conds{cond},Regs{i-1})
+    fprintf('\nt(%i) = %2.3f, p = %2.3f, d = %2.3f\n',stats.df, t(i), p(i), D(i))
+end
 
 
 
@@ -448,15 +480,3 @@ legend(line,Conds)
 cd(plot_dir)
 print -depsc intplot
 
-
-
-
-% %% save GLM output for GM correlation
-% % to test whether base distractor effect correlates with MIP grey matter
-% % volume
-%% 
-% output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
-% cd(output_dir)
-% save('GLM3_output_betas.mat','betas')
-% save('GLM3_output_regs.mat','Regs')
-% save('GLM3_output_conds.mat','Conds')
