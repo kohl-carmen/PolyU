@@ -4,6 +4,8 @@
 %       GLM5: β0 + β1 z(HV-LV) + β2 z(HV+LV) + β3 z(D) + β4 z(HV-LV) z(D) + β5 z(HV+LV) z(D) + β6 z(HV-LV) z(HV+LV) + β7 z(HV-LV) z(HV+LV) z(D) + ε
 % Reports ttests of each predictor's beta weights against zero
 % Plots Figure S3 (each beta weight)
+% Alos runs the same GLM on median split (easy/hard) data and reports each
+% weight against 0 as a posthoc 
 
 
 clearvars 
@@ -69,7 +71,11 @@ for partic=1:length(Partic)
     accuracy( accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max|tms_deletion)=[];                
     d_v( accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max|tms_deletion)=[];        
     lv_v( accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max|tms_deletion)=[];        
-    hv_v( accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max|tms_deletion)=[];        
+    hv_v( accuracy_deletion | rt_keep<=rt_min | rt_keep>=rt_max|tms_deletion)=[];      
+    
+    %% median split(HV-LV)for posthoc
+    mediansplit=zeros(size(hv_v));
+    mediansplit(hv_v-lv_v>=median(hv_v-lv_v))=1;
     
     clear acc data file MIP V5 temp
     
@@ -85,6 +91,21 @@ for partic=1:length(Partic)
         criterion=[accuracy(idx)];% Y is a vector of response values.  If DISTR is 'binomial' Y may a binary vector indicating success/failure, and the total number of trials is taken to be 1 for all observations.  If DISTR is 'binomial', Y may also be a two column matrix, the first column containing the number of successes for each observation,and the second containing the total number of trials.
 
         [betas(partic,:),dev,stats]=glmfit(regressors,criterion,'binomial');
+        
+        %% mediansplit for post hoc
+        for median_split=[0 1]
+            idx=( tms==0 & mediansplit==median_split);
+
+            regressors=[eval(model)];
+            regressors=[normalise(regressors)];
+            criterion=[accuracy(idx)];% Y is a vector of response values.  If DISTR is 'binomial' Y may a binary vector indicating success/failure, and the total number of trials is taken to be 1 for all observations.  If DISTR is 'binomial', Y may also be a two column matrix, the first column containing the number of successes for each observation,and the second containing the total number of trials.
+
+            if median_split==0
+                [betas_low(partic,:),dev,stats]=glmfit(regressors,criterion,'binomial');
+            else
+                [betas_high(partic,:),dev,stats]=glmfit(regressors,criterion,'binomial');
+            end
+        end
       
 end
 
@@ -124,3 +145,30 @@ set(gca,'Ytick',[-.5 0 .5 1 1.5])
 %% save
 cd(output_dir)
 print -depsc GLM5bar
+
+
+%% Post hoc (same again for easy/hard median split)
+%test beta weights (D-HV) against zero (once for easy/hard)
+fprintf('\n------------------------\n------------------------\n--Post Hoc Median Split--\n')
+for regressor=2:8
+% easy
+fprintf('\n%s: EASY',Regs{regressor-1})
+betas=betas_high(:,:);
+[h p ci stats]=ttest(betas(:,regressor));
+D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
+fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
+fprintf('- all_nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
+
+
+% hard
+fprintf('\n%s: HARD',Regs{regressor-1})
+betas=betas_low(:,:);
+[h p ci stats]=ttest(betas(:,regressor));
+D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
+fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
+fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
+
+end
+
+
+
