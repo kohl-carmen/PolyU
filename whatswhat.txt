@@ -28,3 +28,9 @@ Eyetracking_GLM.m
 	- reports GLM outputs as well as ttests of beta weights against zero
 	- plots Figure 5 a-d (depending on 'Which_criterion' variable) (for Figure 5 d, set 'Which_GLM' to 3)
 	- plot Supplementary Figure 2 a-c (depending on 'Which_criterion' variable)
+
+
+GLM5_all_nontms.m
+	- applies GLM5 ({'HV+LV' 'HV-LV' 'D' '(HV-LV)*(D)' '(HV-LV)*(HV+LV)' '(HV+LV)*(D)', '(HV+LV)*(HV-LV)*(D)'}) to non-tms behavioural data
+	- tests each beta weight against zero and reports outcomes
+	- plots Figure S3 (Supplements)
