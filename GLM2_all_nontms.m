@@ -198,15 +198,7 @@ set(gca,'xticklabel',{'hard','easy'})
 cd(plot_dir)
 print -depsc GLM2bar
 
-% %% save GLM output for GM correlation
-% % to test whether base distractor effect correlates with MIP grey matter
-% % volume
-% cd(output_dir)
-% regressor=4;
-% D_effect_easy = betas_high(:,regressor);
-% D_effect_hard = betas_low(:,regressor);
-% save('GLM2_output_easy.mat','D_effect_easy')
-% save('GLM2_output_hard.mat','D_effect_hard')
+
 
 
 

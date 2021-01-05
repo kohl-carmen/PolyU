@@ -10,7 +10,7 @@ clearvars
 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
 plot_dir = 'J:\PolyU\TMS\Paper';
-
+output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
