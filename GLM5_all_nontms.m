@@ -3,7 +3,7 @@
 % Runs GLM5 on all non-tms trials
 %       GLM5: β0 + β1 z(HV-LV) + β2 z(HV+LV) + β3 z(D) + β4 z(HV-LV) z(D) + β5 z(HV+LV) z(D) + β6 z(HV-LV) z(HV+LV) + β7 z(HV-LV) z(HV+LV) z(D) + ε
 % Reports ttests of each predictor's beta weights against zero
-% Plots Figure S3 (each beta weight)
+% Plots Figure S1 (each beta weight)
 % Alos runs the same GLM on median split (easy/hard) data and reports each
 % weight against 0 as a posthoc 
 
@@ -124,7 +124,6 @@ end
 
 
 %% Plot Figure 2 c
-% GLM1 on non-tms trials
 errors=[];
 for r=1:length(Regs)+1
     x=(betas(~isnan(betas(:,r )),r ));
@@ -135,7 +134,7 @@ end
 figure
 bar(mean(betas(:,2:end)));
 hold on
-err=errorbar(1:7,mean(betas(:,2:end)),mean(betas(:,2:end))-errors(2:end),mean(betas(:,2:end))+errors(2:end));
+err=errorbar(1:7,mean(betas(:,2:end)),errors(2:end));
 err.Color = [0 0 0];                            
 err.LineStyle = 'none';  
 set(gca,'xticklabel',Regs)
@@ -169,6 +168,4 @@ fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
 fprintf('- all-nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
 
 end
-
-
 

@@ -9,7 +9,7 @@
 clearvars 
 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
-plot_dir = 'J:\PolyU\TMS\Paper';
+plot_dir = 'C:\Users\ckohl\Desktop';
 output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,7 +115,7 @@ end
 figure
 bar(mean(betas(:,2:end)));
 hold on
-err=errorbar(1:4,mean(betas(:,2:end)),mean(betas(:,2:end))-errors(2:end),mean(betas(:,2:end))+errors(2:end));
+err=errorbar(1:4,mean(betas(:,2:end)),errors(2:end));
 err.Color = [0 0 0];                            
 err.LineStyle = 'none';  
 set(gca,'xticklabel',Regs)

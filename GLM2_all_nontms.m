@@ -9,7 +9,7 @@
 clearvars 
 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
-plot_dir = 'J:\PolyU\TMS\Paper';
+plot_dir = 'C:\Users\ckohl\Desktop';
 output_dir='C:\Users\ckohl\Desktop\Current\Other\Bolton\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -189,7 +189,7 @@ errors_low=[SEM];
 figure
 bar([mean(betas_low(:,regressor));mean(betas_high(:,regressor))]);
 hold on
-err=errorbar(1:2,[mean(betas_low(:,regressor)),mean(betas_high(:,regressor))], [mean(betas_low(:,regressor)),mean(betas_high(:,regressor))]-[errors_low,errors_high],[mean(betas_low(:,regressor)),mean(betas_high(:,regressor))]+[errors_low,errors_high]);
+err=errorbar(1:2,[mean(betas_low(:,regressor)),mean(betas_high(:,regressor))], [errors_low,errors_high]);
 err.Color = [0 0 0];                            
 err.LineStyle = 'none';  
 set(gca,'xticklabel',{'hard','easy'})
