@@ -44,7 +44,7 @@
 %   - Which_GLM = 5 (for each criterion)
 %           -  Runs a GLM: {'HV' 'LV' 'D'} to predict gaze shifts
 %           -  Everything else like above
-%           -  Plots Supplementary Figure 2 (a/b/c  with Which_criterion
+%           -  Plots Supplementary Figure S3 (a/b/c  with Which_criterion
 %               = 1/2/3 respectively)
 %
 %   - Manually uncomment lines 115-116 (while Which_GLM=3, Which_criterion=1/2/3)
