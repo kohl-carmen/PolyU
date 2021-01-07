@@ -240,40 +240,6 @@ for i=2:size(mean_betas,2)
     fprintf('\nt(%i) = %2.3f, p = %2.3f, d = %2.3f\n',stats.df, t(i), p(i), D(i))
 end
                 
-% test D-HV regressor against 0 - once for MIP1contra one for MIP0contra
-for cond=1:length(Conds)
-    if Conds{cond}(2)=='I' & Conds{cond}(end)=='a'
-        if Conds{cond}(4)=='1'
-            cond_oi1=cond;
-        else
-            cond_oi2=cond;
-        end
-    end
-end
-
-p=[];
-t=[];
-D=[];
-fprintf('Ttest of D-HV against 0 (MIP1contra vs MIP0contra):\n')
-for conds = 1:2
-    if conds==1
-        cond=cond_oi1;
-    else
-        cond=cond_oi2;
-    end
-    [h p(i) ci stats]=ttest(betas(:,end,cond));
-    t(i)=stats.tstat;
-    p(i);
-    Mean1= mean(betas(:,end,cond));
-    Mean2= 0;
-    SD1 = std(betas(:,end,cond));
-    SD2 = 0;
-    D(i)= (Mean2-Mean1)/(SD1)'; 
-    fprintf('%s %s',Conds{cond},Regs{i-1})
-    fprintf('\nt(%i) = %2.3f, p = %2.3f, d = %2.3f\n',stats.df, t(i), p(i), D(i))
-end
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% PLOT BETAS
@@ -294,18 +260,18 @@ for rfig=2: length(Regs)+1 %one figure per regressor (except intercept)
 
     clf
     %1 MIP0ips 2 MIP1ips 3 MT0ips 4 MT1ips
-    %5 MIP0con 6 MIP1con 7 MT1con 8 MT0con
+    %5 MIP0con 6 MIP1con 7 MT0con 8 MT1con
     hold on
     xlim([0 5])
      
     for lines=1:4
         if lines==1 %MT0ipsi MT0con
-            these_conds=[3 8]; 
+            these_conds=[3 7]; 
             these_x=[1 2];
             col=[.5 .5 .5];
             linetype='--';
         elseif lines==2 %MT1ipsi MT1con
-            these_conds=[4 7];
+            these_conds=[4 8];
             these_x=[1 2];
             col=['k'];
             linetype='-';
@@ -322,7 +288,7 @@ for rfig=2: length(Regs)+1 %one figure per regressor (except intercept)
             end
         end
         to_plot=squeeze(mean(betas(:,rfig,these_conds)));
-        error_to_plot=[([errors.(strcat('Reg',num2str(rfig-1))).(Conds{these_conds(1)})]); ([errors.(strcat('Reg',num2str(rfig-1))).(Conds{these_conds(2)})])];
+        error_to_plot=[([errors.(strcat('Reg',num2str(rfig))).(Conds{these_conds(1)})]); ([errors.(strcat('Reg',num2str(rfig))).(Conds{these_conds(2)})])];
         
         plot([0:5], zeros(1,6),':', 'Color','k');%[.7 .7 .7])
     
