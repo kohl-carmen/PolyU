@@ -30,11 +30,7 @@ model='[hv_v(idx)-lv_v(idx), hv_v(idx)+lv_v(idx),d_v(idx),normalise(hv_v(idx)-lv
 
 for partic=1:length(Partic)
 
-    partic_char=num2str(Partic(partic));
-    if Partic(partic)<10
-        partic_char=strcat('0',num2str(Partic(partic)));
-    end
-
+    partic_char = sprintf('%02d', Partic(partic));
     MIP=load(strcat(beh_data_folder,'\7',partic_char,'1\transformed\data_behavior_tms'));
     V5=load(strcat(beh_data_folder,'\7',partic_char,'0\transformed\data_behavior_tms'));      
     for file={'MIP', 'V5'}
