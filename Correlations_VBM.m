@@ -17,7 +17,7 @@ clear
 corr_or_partialcorr=2;
 
 file_dir = 'D:\PolyU\TMS\Results\VBM\output\';
-plot_dir='D:\PolyU\TMS\Paper\';
+plot_dir='C:\Users\ckohl\Desktop';
 glm2_output_dir ='C:\Users\ckohl\Desktop\Current\Other\Bolton\'; %output_dir in GLM2_all_nontms.m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -4,7 +4,6 @@
 
 % Reports ttests of each predictor's beta weights against zero
 % Plots Figure 2d (each beta weight)
-a=mfilename('fullpath')
 
 clearvars 
 

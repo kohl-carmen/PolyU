@@ -7,7 +7,7 @@
 
 clearvars 
 beh_data_folder='D:\PolyU\TMS\Data\Beh';
-plot_dir = 'J:\PolyU\TMS\Paper';
+plot_dir = 'C:\Users\ckohl\Desktop';
 
 %% load and sort data
 Partic=1:31;

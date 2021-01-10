@@ -29,7 +29,7 @@
 %   - Which_GLM = 3 &  Which_criterion =  2
 %           -  Same as above, but now the GLM is predicting gaze shifts
 %              from HV to D (not bidirectional)
-%           -  Still reports everything liek above, but we're only
+%           -  Still reports everything like above, but we're only
 %              reporting one ANOVA interaction in the manuscript
 %           -  Plots Figure 5 c (note bar order was changed in illustrator)
 % 
@@ -55,10 +55,10 @@
 clear
 
 file_dir='D:\PolyU\TMS\Data\Tobii\';
-output_dir='D:\PolyU\TMS\Paper';
+output_dir='C:\Users\ckohl\Desktop';
 
 
-Which_GLM = 3;    
+Which_GLM = 4;    
                 % 3: HV+LV, HV-LV, D-HV  => these values to predict the number of gaze shifts in different conds (TMSxSess)
                 % 4: hv_lv, lv_hv, lv_dv, dv_lv, hv_dv, dv_hv  => these gaze shifts to predict accuracy across all non-tms trials
                 % 5: % 2: HV, LV, D  => these values to predict the number of gaze shifts in different conds (TMSxSess)
