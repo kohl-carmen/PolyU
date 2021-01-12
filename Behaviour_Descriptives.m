@@ -80,14 +80,19 @@ Mean2= mean(ACC_MIP);
 SD1 = std(ACC_MT);
 SD2 = std(ACC_MIP);
 D= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2));
-fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f\n', tstat.df, tstat.tstat, p,D)
+ts = tinv([0.025 0.975],length(ACC_MT)-1);
+CI = (Mean2-Mean1) + ts.*(std(ACC_MIP-ACC_MT)/sqrt(length(ACC_MIP)));
+fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n', tstat.df, tstat.tstat, p,D,CI)
+
 [binary,p,ci,tstat]=ttest(RT_MT,RT_MIP);
 Mean1= mean(RT_MT);
 Mean2= mean(RT_MIP);
 SD1 = std(RT_MT);
 SD2 = std(RT_MIP);
 D= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2));
-fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f\n', tstat.df, tstat.tstat, p,D)
+ts = tinv([0.025 0.975],length(RT_MT)-1);
+CI = (Mean2-Mean1) + ts.*(std(RT_MIP-RT_MT)/sqrt(length(RT_MIP)));
+fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n', tstat.df, tstat.tstat, p,D,CI)
 
 
 

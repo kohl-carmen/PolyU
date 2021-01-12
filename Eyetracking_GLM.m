@@ -359,20 +359,21 @@ if ANOVA < 10
         betas_oi=mean(betas_oi,2);
         [h p ci stats]=ttest(betas_oi);
         D=(mean(betas_oi)-0)/std(betas_oi);
+        ts = tinv([0.025 0.975],length(betas_oi)-1);
+        CI = mean(betas_oi) + ts.*(std(betas_oi)/sqrt(length(betas_oi)));
         fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-        fprintf(' t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
+        fprintf(' t(%d) = %2.2f, p = %2.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n',stats.df,stats.tstat, p,D,CI)
 
     end
 elseif ANOVA==10
     for regressor=2:size(betas,2)  
-        [binary,p,ci,tstat]=ttest(betas(:,regressor));
-        Mean1= mean(betas(:,regressor));
-        Mean2= 0;
-        SD1 = std(betas(:,regressor));
-        SD2 = 0;
-        D= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2));
+        betas_oi = betas(:,regressor);
+        [binary,p,ci,tstat]=ttest(betas_oi);
+        D=(mean(betas_oi)-0)/std(betas_oi);
+        ts = tinv([0.025 0.975],length(betas_oi)-1);
+        CI = mean(betas_oi) + ts.*(std(betas_oi)/sqrt(length(betas_oi)));
         fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-        fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f', tstat.df, tstat.tstat, p,D)
+        fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n', tstat.df, tstat.tstat, p,D,CI)
     end
 end
 
@@ -557,9 +558,12 @@ if ANOVA<10
     SD1 = std(tabbi(:,1));
     SD2 = std(tabbi(:,2));
     D= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2));
+    ts = tinv([0.025 0.975],length(tabbi(:,1))-1);
+    CI = (Mean2-Mean1) + ts.*(std(tabbi(:,1)-tabbi(:,2))/sqrt(length(tabbi(:,1))));
     fprintf('\nOnly MIP: compare tms and non-tms \n')
-    fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f\n', tstat.df, tstat.tstat, p,D)
+    fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n', tstat.df, tstat.tstat, p,D,CI)
 
+    
     % only MT
     tabbi=table2array(tab);
     tabbi=tabbi(:,3:4);
@@ -572,6 +576,8 @@ if ANOVA<10
     SD1 = std(tabbi(:,1));
     SD2 = std(tabbi(:,2));
     D= (Mean2-Mean1)/(sqrt(((SD1)^2 +(SD2)^2)/2));
+    ts = tinv([0.025 0.975],length(tabbi(:,1))-1);
+    CI = (Mean2-Mean1) + ts.*(std(tabbi(:,1)-tabbi(:,2))/sqrt(length(tabbi(:,1))));
     fprintf('\nOnly MT: compare tms and non-tms \n')
-    fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f\n', tstat.df, tstat.tstat, p,D)
+    fprintf('t(%i) = %2.2f, p = %1.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n', tstat.df, tstat.tstat, p,D,CI)
 end

@@ -89,12 +89,16 @@ end
 %% test each regressor against 0
 %only non-tms
 for regressor=2:size(betas,2)
-    [h p ci stats]=ttest(betas(:,regressor));
-    D=(mean(betas(:,regressor))-0)/std(betas(:,regressor));
+    betas_oi = betas(:,regressor);
+    [h p ci stats]=ttest(betas_oi);
+    D=(mean(betas_oi)-0)/std(betas_oi);
+    ts = tinv([0.025 0.975],length(betas_oi)-1);
+    CI = mean(betas_oi) + ts.*(std(betas_oi)/sqrt(length(betas_oi)));
     fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
-    fprintf('- all nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f\n',stats.df,stats.tstat, p,D)
-    
+    fprintf('- all nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n',stats.df,stats.tstat, p,D,CI)
 end
+
+
 
 
 %% Plot Figure 2 c
