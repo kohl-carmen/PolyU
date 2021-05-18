@@ -236,7 +236,19 @@ for regressor=2:size(mean_betas,2)
     fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
     fprintf('- all nontms: t(%d) = %2.2f, p = %2.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n',stats.df,stats.tstat, p,D,CI)
 end
-                
+fprintf('\nNow per cond')
+for regressor=2:size(mean_betas,2)
+    fprintf('\nTesting %s against 0:\n',Regs{regressor-1})
+    for cond = 1:length(Conds)
+        betas_oi = betas(:,regressor,cond);
+        [h p ci stats]=ttest(betas_oi);
+        D=(mean(betas_oi)-0)/std(betas_oi);
+        ts = tinv([0.025 0.975],length(betas_oi)-1);
+        CI = mean(betas_oi) + ts.*(std(betas_oi)/sqrt(length(betas_oi)));
+        fprintf('- %s: t(%d) = %2.2f, p = %2.3f, d = %2.2f, CI = [%2.2f, %2.2f]\n',Conds{cond},stats.df,stats.tstat, p,D,CI)
+    end
+end
+        
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% PLOT BETAS
@@ -305,7 +317,7 @@ for rfig=2: length(Regs)+1 %one figure per regressor (except intercept)
         set(gca,'YTick',[-.3 0 .3 .6])
     end
     set(gca,'XTick',[1:4])
-    set(gca,'xticklabel',{'Contra' 'Ipsi' 'Contra' 'Ipsi'})
+    set(gca,'xticklabel',{'Ipsi' 'Contra' 'Ipsi' 'Contra'})
     ticks=get(gca,'YTick');
     title(Regs{rfig-1})
     
@@ -436,6 +448,6 @@ line=[];
 legend(line,Conds)
 
 % save
-cd(plot_dir)
-print -depsc intplot
+% cd(plot_dir)
+% print -depsc intplot
 
