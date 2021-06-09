@@ -27,11 +27,35 @@ Eyetracking_GLM.m
 	- applies GLM (depending on 'Which_GLM' vaiable)
 	- reports GLM outputs as well as ttests of beta weights against zero
 	- plots Figure 5 a-d (depending on 'Which_criterion' variable) (for Figure 5 d, set 'Which_GLM' to 3)
-	- plot Supplementary Figure S3 a-c (depending on 'Which_criterion' variable)
-
+	- plots Supplementary Figure S3 a-c (depending on 'Which_criterion' variable)
 
 GLM5_all_nontms.m
 	- applies GLM5 ({'HV+LV' 'HV-LV' 'D' '(HV-LV)*(D)' '(HV-LV)*(HV+LV)' '(HV+LV)*(D)', '(HV+LV)*(HV-LV)*(D)'}) to non-tms behavioural data
 	- tests each beta weight against zero and reports outcomes
 	- plots Figure S1 (Supplements)
 	- applies GLM5 to median split (easy/hard) and reports beta weights against 0 as post hoc
+
+--added during revision--
+
+Rev_GLM3_RT_and_Acc.m
+	- applies GLM3 ({'HV+LV' 'HV-LV' 'D-HV' }) to behavioural data (tms x  session x side) once for RT and once for Acc
+ 	- reports GLM effects (tms x session x side x AccvsRT ANOVA) 
+ 	- plots Supplementary Figure S3
+
+Rev_NewGLM_divisive_norm.m
+ 	- applies GLM ({'HV+LV' 'HV-LV' 'D' '(HV+LV)(D)'}) to behavioural data (tms x session x side)
+ 	- reports GLM effects (tms x session x side ANOVA)
+ 	- plots Supplementary Figure S4
+
+Rev_Multinomial_Regression.m
+   	- runs multinomial logistic regression {'HV+LV' 'HV-LV' 'D-HV' '(HV-LV)*(D-HV)'}
+	- reports ttests of each predictor's beta weights against zero
+        - plots Supplementary Figure S2 
+
+-- not used --
+
+Misc_Descriptives.m	
+	- plots descriptives
+
+Misc_GLM3_difficultysplit.m
+	- like GLM3_Beh.m but attempts to split easy and hard
